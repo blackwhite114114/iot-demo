@@ -3,15 +3,18 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-"scripts": {
+  "scripts": {
     "pub": "node publisher.js",
-    "sub": "node subscriber.js"
+    "sub": "node subscriber.js",
+    "web": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^17.2.1",
-    "mqtt": "^5.14.0"
+    "express": "^4.21.2",
+    "mqtt": "^5.14.0",
+    "socket.io": "^4.8.1"
   }
 }
