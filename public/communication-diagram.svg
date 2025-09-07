@@ -1,0 +1,74 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="white" />
+
+  <!-- Styles -->
+  <style>
+    .component { fill: #f0f8ff; stroke: #4682b4; stroke-width: 2; }
+    .component-text { font-family: Arial, sans-serif; font-size: 14px; text-anchor: middle; }
+    .title { font-family: Arial, sans-serif; font-size: 20px; font-weight: bold; text-anchor: middle; }
+    .arrow { stroke: #333; stroke-width: 2; marker-end: url(#arrowhead); }
+    .label { font-family: Arial, sans-serif; font-size: 12px; fill: #333; }
+    .data-flow { stroke: #ff6347; stroke-width: 2; marker-end: url(#data-arrowhead); }
+  </style>
+
+  <!-- Arrowhead definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+            refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+    </marker>
+    <marker id="data-arrowhead" markerWidth="10" markerHeight="7" 
+            refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ff6347" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="30" class="title">IoT Demo System Communication Diagram</text>
+
+  <!-- Bottom Layer: Publisher -->
+  <rect x="200" y="450" width="120" height="60" rx="10" class="component" />
+  <text x="260" y="475" class="component-text">Publisher.js</text>
+  <text x="260" y="495" class="component-text">(IoT Device)</text>
+
+  <!-- Middle Layer: MQTT Broker and Server -->
+  <rect x="200" y="250" width="120" height="60" rx="10" class="component" />
+  <text x="260" y="275" class="component-text">MQTT Broker</text>
+  <text x="260" y="295" class="component-text">localhost:1883</text>
+
+  <rect x="480" y="250" width="120" height="60" rx="10" class="component" />
+  <text x="540" y="275" class="component-text">Server.js</text>
+  <text x="540" y="295" class="component-text">(Web Server)</text>
+
+  <!-- Top Layer: Subscriber and Web Browser -->
+  <rect x="200" y="100" width="120" height="60" rx="10" class="component" />
+  <text x="260" y="125" class="component-text">Subscriber.js</text>
+  <text x="260" y="145" class="component-text">(Data Processor)</text>
+
+  <rect x="480" y="100" width="120" height="60" rx="10" class="component" />
+  <text x="540" y="125" class="component-text">Web Browser</text>
+  <text x="540" y="145" class="component-text">(Client UI)</text>
+
+  <!-- Connections -->
+  <!-- Publisher to MQTT Broker -->
+  <line x1="260" y1="450" x2="260" y2="310" class="arrow" />
+  <line x1="260" y1="450" x2="260" y2="310" class="data-flow" />
+  <text x="270" y="400" class="label" fill="#ff6347">Publish Data</text>
+
+  <!-- MQTT Broker to Subscriber -->
+  <line x1="230" y1="250" x2="230" y2="160" class="arrow" />
+  <line x1="230" y1="250" x2="230" y2="160" class="data-flow" />
+  <text x="240" y="210" class="label" fill="#ff6347">Receive Data</text>
+
+  <!-- MQTT Broker to Server -->
+  <line x1="320" y1="280" x2="480" y2="280" class="arrow" />
+  <line x1="320" y1="280" x2="480" y2="280" class="data-flow" />
+  <text x="380" y="270" class="label" fill="#ff6347">Subscribe</text>
+
+  <!-- Server to Web Browser -->
+  <line x1="540" y1="250" x2="540" y2="160" class="arrow" />
+  <line x1="540" y1="250" x2="540" y2="160" class="data-flow" />
+  <text x="550" y="210" class="label" fill="#ff6347">WebSocket</text>
+  <text x="550" y="225" class="label" fill="#ff6347">Real-time Data</text>
+</svg>

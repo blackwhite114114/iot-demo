@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT 实时数据监控</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .data-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+        }
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        .label {
+            font-weight: bold;
+            color: #555;
+        }
+        .value {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .timestamp {
+            color: #888;
+            font-size: 0.9em;
+            text-align: right;
+            margin-top: 10px;
+        }
+        .status {
+            text-align: center;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .connected {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .disconnected {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        #dataContainer {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>IoT 实时数据监控</h1>
+        
+        <div id="connectionStatus" class="status disconnected">
+            连接状态: 未连接
+        </div>
+        
+        <div id="latestData" class="data-card" style="display: none;">
+            <h2>最新数据</h2>
+            <div class="data-item">
+                <span class="label">设备ID:</span>
+                <span id="deviceId" class="value"></span>
+            </div>
+            <div class="data-item">
+                <span class="label">温度:</span>
+                <span id="temperature" class="value"></span> °C
+            </div>
+            <div class="data-item">
+                <span class="label">湿度:</span>
+                <span id="humidity" class="value"></span> %
+            </div>
+            <div class="timestamp">
+                更新时间: <span id="timestamp"></span>
+            </div>
+        </div>
+        
+        <h2>历史数据</h2>
+        <div id="dataContainer"></div>
+    </div>
+
+    <script>
+        const socket = io();
+        
+        const connectionStatus = document.getElementById('connectionStatus');
+        const latestData = document.getElementById('latestData');
+        const dataContainer = document.getElementById('dataContainer');
+        
+        // 更新连接状态显示
+        function updateConnectionStatus(connected) {
+            if (connected) {
+                connectionStatus.textContent = '连接状态: 已连接';
+                connectionStatus.className = 'status connected';
+            } else {
+                connectionStatus.textContent = '连接状态: 未连接';
+                connectionStatus.className = 'status disconnected';
+            }
+        }
+        
+        // 格式化时间戳
+        function formatTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleString('zh-CN');
+        }
+        
+        // 显示数据
+        function displayData(data) {
+            // 更新最新数据
+            document.getElementById('deviceId').textContent = data.deviceId;
+            document.getElementById('temperature').textContent = data.temperature;
+            document.getElementById('humidity').textContent = data.humidity;
+            document.getElementById('timestamp').textContent = formatTimestamp(data.ts);
+            
+            latestData.style.display = 'block';
+            
+            // 添加到历史数据
+            const dataCard = document.createElement('div');
+            dataCard.className = 'data-card';
+            dataCard.innerHTML = `
+                <div class="data-item">
+                    <span class="label">设备ID:</span>
+                    <span class="value">${data.deviceId}</span>
+                </div>
+                <div class="data-item">
+                    <span class="label">温度:</span>
+                    <span class="value">${data.temperature}</span> °C
+                </div>
+                <div class="data-item">
+                    <span class="label">湿度:</span>
+                    <span class="value">${data.humidity}</span> %
+                </div>
+                <div class="timestamp">
+                    更新时间: ${formatTimestamp(data.ts)}
+                </div>
+            `;
+            
+            dataContainer.insertBefore(dataCard, dataContainer.firstChild);
+            
+            // 限制历史数据数量
+            if (dataContainer.children.length > 50) {
+                dataContainer.removeChild(dataContainer.lastChild);
+            }
+        }
+        
+        // Socket.IO 事件处理
+        socket.on('connect', () => {
+            console.log('Connected to server');
+            updateConnectionStatus(true);
+        });
+        
+        socket.on('disconnect', () => {
+            console.log('Disconnected from server');
+            updateConnectionStatus(false);
+        });
+        
+        socket.on('data', (data) => {
+            console.log('Received data:', data);
+            displayData(data);
+        });
+        
+        // 初始连接状态
+        updateConnectionStatus(socket.connected);
+    </script>
+</body>
+</html>
