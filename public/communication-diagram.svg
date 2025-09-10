@@ -37,14 +37,14 @@
   <text x="260" y="275" class="component-text">MQTT Broker</text>
   <text x="260" y="295" class="component-text">localhost:1883</text>
 
-  <rect x="480" y="250" width="120" height="60" rx="10" class="component" />
-  <text x="540" y="275" class="component-text">Server.js</text>
-  <text x="540" y="295" class="component-text">(Web Server)</text>
+  <rect x="440" y="250" width="200" height="60" rx="10" class="component" />
+  <text x="490" y="265" class="component-text">index.html</text>
+  <text x="590" y="265" class="component-text">Server.js</text>
+  <text x="540" y="290" class="component-text">(Web Server)</text>
 
   <!-- Top Layer: Subscriber and Web Browser -->
   <rect x="200" y="100" width="120" height="60" rx="10" class="component" />
-  <text x="260" y="125" class="component-text">Subscriber.js</text>
-  <text x="260" y="145" class="component-text">(Data Processor)</text>
+  <text x="260" y="130" class="component-text">Subscriber.js</text>
 
   <rect x="480" y="100" width="120" height="60" rx="10" class="component" />
   <text x="540" y="125" class="component-text">Web Browser</text>
@@ -57,18 +57,21 @@
   <text x="270" y="400" class="label" fill="#ff6347">Publish Data</text>
 
   <!-- MQTT Broker to Subscriber -->
-  <line x1="230" y1="250" x2="230" y2="160" class="arrow" />
-  <line x1="230" y1="250" x2="230" y2="160" class="data-flow" />
-  <text x="240" y="210" class="label" fill="#ff6347">Receive Data</text>
+  <line x1="260" y1="250" x2="260" y2="160" class="arrow" />
+  <line x1="260" y1="250" x2="260" y2="160" class="data-flow" />
+  <text x="270" y="210" class="label" fill="#ff6347">Subscribe</text>
 
   <!-- MQTT Broker to Server -->
-  <line x1="320" y1="280" x2="480" y2="280" class="arrow" />
-  <line x1="320" y1="280" x2="480" y2="280" class="data-flow" />
-  <text x="380" y="270" class="label" fill="#ff6347">Subscribe</text>
+  <line x1="320" y1="280" x2="440" y2="280" class="arrow" />
+  <line x1="320" y1="280" x2="440" y2="280" class="data-flow" />
+  <text x="380" y="270" class="label" fill="#ff6347" text-anchor="middle">Subscribe</text>
 
-  <!-- Server to Web Browser -->
-  <line x1="540" y1="250" x2="540" y2="160" class="arrow" />
-  <line x1="540" y1="250" x2="540" y2="160" class="data-flow" />
-  <text x="550" y="210" class="label" fill="#ff6347">WebSocket</text>
-  <text x="550" y="225" class="label" fill="#ff6347">Real-time Data</text>
+  <!-- Server to Web Browser (separated flows) -->
+  <!-- Upward flow (Server -> Browser) at x=520 -->
+  <line x1="520" y1="250" x2="520" y2="160" class="arrow" />
+  <line x1="520" y1="250" x2="520" y2="160" class="data-flow" />
+  <text x="500" y="200" class="label" fill="#2e8b57" text-anchor="end">get index.html</text>
+  <!-- Downward arrow: Browser -> Server (WebSocket) at x=560 -->
+  <line x1="560" y1="160" x2="560" y2="250" class="arrow" />
+  <text x="560" y="185" class="label" fill="#ff6347">web socket</text>
 </svg>
