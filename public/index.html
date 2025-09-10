@@ -69,11 +69,26 @@
         #dataContainer {
             margin-top: 20px;
         }
+        .nav-link {
+            display: block;
+            text-align: center;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .nav-link:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>IoT 实时数据监控</h1>
+        
+        <a href="/visualization.html" class="nav-link">查看数据可视化图表</a>
         
         <div id="connectionStatus" class="status disconnected">
             连接状态: 未连接
