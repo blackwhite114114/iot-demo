@@ -6,7 +6,8 @@
   "scripts": {
     "pub": "node publisher.js",
     "sub": "node subscriber.js",
-    "web": "node server.js"
+    "web": "node server.js",
+    "query": "node query-data.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
     "dotenv": "^17.2.1",
     "express": "^4.21.2",
     "mqtt": "^5.14.0",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "sqlite3": "^5.1.7"
   }
 }
